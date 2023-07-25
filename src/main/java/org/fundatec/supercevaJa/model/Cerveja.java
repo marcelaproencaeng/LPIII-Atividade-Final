@@ -3,6 +3,7 @@ package org.fundatec.supercevaJa.model;
 import jakarta.persistence.*;
 import lombok.Data;
 import org.fundatec.supercevaJa.model.enuns.TipoCerveja;
+
 import java.math.BigDecimal;
 
 
@@ -28,7 +29,7 @@ public class Cerveja {
     @Column
     private int quantidade;
 
-    public Cerveja(){
+    public Cerveja() {
 
     }
 
@@ -44,29 +45,5 @@ public class Cerveja {
         this.quantidade = quantidade;
     }
 
-//    @Override
-//    public boolean equals(Object o) {
-//        if (this == o) return true;
-//        if (o == null || getClass() != o.getClass()) return false;
-//        Cerveja cerveja = (Cerveja) o;
-//        return idCerveja == cerveja.idCerveja;
-//    }
-//
-//    @Override
-//    public int hashCode() {
-//        return Objects.hash(idCerveja);
-//    }
-//
-//    @Override
-//    public String toString() {
-//        return "Cerveja{" +
-//                "idCerveja=" + idCerveja +
-//                ", nome='" + nome + '\'' +
-//                ", teorAlcoolico=" + teorAlcoolico +
-//                ", volume=" + volume +
-//                ", tipo=" + tipo +
-//                ", valor=" + valor +
-//                ", quantidade=" + quantidade +
-//                '}';
-//    }
+
 }

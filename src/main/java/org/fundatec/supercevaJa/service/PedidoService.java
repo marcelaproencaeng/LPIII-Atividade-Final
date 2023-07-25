@@ -13,6 +13,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
+
 import java.math.BigDecimal;
 
 
@@ -55,11 +56,11 @@ public class PedidoService {
         return pedido1.calcularValorTotal();
 
 
-        Cerveja cerveja1 = new Cerveja();
-        cerveja1.setTipo(cervejaDTO.getTipo());
-        cerveja1.setQuantidade(cervejaDTO.getQuantidade());
-        cerveja1.setValor(cervejaDTO.getValor());
-        cervejaRepository.save(cerveja1);
+        Cerveja cerveja = new Cerveja();
+        cerveja.setTipo(cervejaDTO.getTipo());
+        cerveja.setQuantidade(cervejaDTO.getQuantidade());
+        cerveja.setValor(cervejaDTO.getValor());
+        cervejaRepository.save(cerveja);
 
 
         Usuario usuario1 = new Usuario();
@@ -67,29 +68,36 @@ public class PedidoService {
         usuarioRepository.save(usuario1);
 
 
-        if (pedido.getCervejas().size() <= 10) {
+        if (pedido1.getCervejas().size() <= 10) {
 
+            Cerveja cerveja1 = new Cerveja();
+            cerveja1.setTipo(cervejaDTO.getTipo());
+            cerveja1.setQuantidade(cervejaDTO.getQuantidade());
+            cerveja1.setValor(cervejaDTO.getValor());
+            cervejaRepository.save(cerveja1);
             BigDecimal valorTotalDoPedido = pedido.calcularValorTotal();
             ResponseEntity.status(HttpStatus.OK).build();
-            pedidoRepository.save(pedido);
+            pedidoRepository.save(pedido1);
             return pedido.calcularValorTotal();
 
         }
 
-        if (pedido.getCervejas().size() >= 10) {
+        if (pedido1.getCervejas().size() >= 10) {
 
-            pedido.setCervejas(pedidoDTO.getCervejas());
+            pedido1.setCervejas(pedidoDTO.getCervejas());
             Usuario usuario2 = new Usuario();
             usuario2.setUserName(usuario.getUserName());
-            Cerveja cerveja2 = new Cerveja();
-            cerveja2.setQuantidade(cervejaDTO.getQuantidade());
-            cerveja2.setTipo(cervejaDTO.getTipo());
-            cerveja2.setValor(cervejaDTO.getValor());
+            usuarioRepository.save(usuario2);
+            Cerveja cerveja3 = new Cerveja();
+            cerveja3.setQuantidade(cervejaDTO.getQuantidade());
+            cerveja3.setTipo(cervejaDTO.getTipo());
+            cerveja3.setValor(cervejaDTO.getValor());
+            cervejaRepository.save(cerveja3);
             BigDecimal valorTotalDoPedido = pedido.calcularValorTotal();
             BigDecimal valorTotalDoPedidoComDesconto = BigDecimal.ZERO;
             valorTotalDoPedidoComDesconto = valorTotalDoPedido
                     .subtract(valorTotalDoPedido.multiply(new BigDecimal(0.1)));
-            pedidoRepository.save(pedido);
+            pedidoRepository.save(pedido1);
             return pedido.calcularValorTotal();
 
         }

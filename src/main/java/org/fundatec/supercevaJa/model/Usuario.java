@@ -29,20 +29,20 @@ public class Usuario {
     @Column
     private String senha;
 
-//    public Usuario() {
-//
-//    }
-//
-//    public Usuario(Long idUsuario, String nome, String sobrenome,
-//                   String cpf, LocalDate dataNascimento, String userName, String senha) {
-//        this.idUsuario = idUsuario;
-//        this.nome = nome;
-//        this.sobrenome = sobrenome;
-//        this.cpf = cpf;
-//        this.dataNascimento = dataNascimento;
-//        this.userName = userName;
-//        this.senha = senha;
-//    }
+    public Usuario() {
+
+    }
+
+    public Usuario(long idUsuario, String nome, String sobrenome,
+                   String cpf, LocalDate dataNascimento, String userName, String senha) {
+        this.idUsuario = idUsuario;
+        this.nome = nome;
+        this.sobrenome = sobrenome;
+        this.cpf = cpf;
+        this.dataNascimento = dataNascimento;
+        this.userName = userName;
+        this.senha = senha;
+    }
 
     public boolean isMaiorDeIdade() {
         int anoNascimento = dataNascimento.getYear();
