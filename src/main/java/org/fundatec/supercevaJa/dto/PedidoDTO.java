@@ -1,5 +1,6 @@
 package org.fundatec.supercevaJa.dto;
 
+import lombok.Builder;
 import lombok.Data;
 import org.fundatec.supercevaJa.model.Cerveja;
 import org.fundatec.supercevaJa.model.Usuario;
@@ -10,6 +11,7 @@ import java.time.LocalDate;
 import java.util.List;
 
 @Data
+@Builder
 public class PedidoDTO {
 
     private long idPedido;

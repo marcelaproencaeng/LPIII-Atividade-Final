@@ -1,11 +1,13 @@
 package org.fundatec.supercevaJa.dto;
 
+import lombok.Builder;
 import lombok.Data;
 import org.fundatec.supercevaJa.model.enuns.TipoCerveja;
 
 import java.math.BigDecimal;
 
 @Data
+@Builder
 public class CervejaDTO {
 
     private long idCerveja;

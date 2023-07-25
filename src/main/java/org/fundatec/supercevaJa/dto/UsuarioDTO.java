@@ -1,9 +1,12 @@
 package org.fundatec.supercevaJa.dto;
 
+import lombok.Builder;
 import lombok.Data;
 
 import java.time.LocalDate;
+
 @Data
+@Builder
 public class UsuarioDTO {
 
     private long idUsuario;
@@ -14,21 +17,5 @@ public class UsuarioDTO {
     private String userName;
     private String senha;
 
-//    public UsuarioDTO(){
-//
-//    }
-//
-//    public UsuarioDTO(long idUsuario, String nome,
-//                      String sobrenome, String cpf,
-//                      LocalDate dataNascimento,
-//                      String userName, String senha) {
-//        this.idUsuario = idUsuario;
-//        this.nome = nome;
-//        this.sobrenome = sobrenome;
-//        this.cpf = cpf;
-//        this.dataNascimento = dataNascimento;
-//        this.userName = userName;
-//        this.senha = senha;
-//    }
 
 }

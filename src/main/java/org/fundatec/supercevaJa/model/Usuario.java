@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.Data;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.server.ResponseStatusException;
+
 import java.time.LocalDate;
 
 
@@ -48,35 +49,11 @@ public class Usuario {
         int anoNascimento = dataNascimento.getYear();
         int anoAtual = LocalDate.now().getYear();
         int idade = anoAtual - anoNascimento;
-        if (idade <= 18){
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST,"Menores de  18 anos não podem realizar pedido");
+        if (idade <= 18) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Menores de  18 anos não podem realizar pedido");
         }
         return true;
     }
 
-//    @Override
-//    public boolean equals(Object o) {
-//        if (this == o) return true;
-//        if (o == null || getClass() != o.getClass()) return false;
-//        Usuario usuario = (Usuario) o;
-//        return idUsuario.equals(usuario.idUsuario);
-//    }
-//
-//    @Override
-//    public int hashCode() {
-//        return Objects.hash(idUsuario);
-//    }
-//
-//    @Override
-//    public String toString() {
-//        return "Usuario{" +
-//                "idUsuario=" + idUsuario +
-//                ", nome='" + nome + '\'' +
-//                ", sobrenome='" + sobrenome + '\'' +
-//                ", cpf='" + cpf + '\'' +
-//                ", dataNascimento=" + dataNascimento +
-//                ", userName='" + userName + '\'' +
-//                ", senha='" + senha + '\'' +
-//                '}';
-//    }
+
 }

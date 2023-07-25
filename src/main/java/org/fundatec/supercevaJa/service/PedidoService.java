@@ -13,7 +13,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
-
 import java.math.BigDecimal;
 
 
@@ -111,8 +110,8 @@ public class PedidoService {
 //            valorTotalDoPedidoComDesconto = valorTotalDoPedido
 //                    .subtract(valorTotalDoPedido.multiply(new BigDecimal(0.1)));
 //            ResponseEntity.status(HttpStatus.OK).build();
-        pedidoRepository.save(pedido);
-        return pedido.calcularValorTotal();
+//        pedidoRepository.save(pedido);
+//        return pedido.calcularValorTotal();
 //
 //        }
 //        if (pedido.getCervejas().size() <= 10 && temperatura > 22) {
@@ -120,8 +119,8 @@ public class PedidoService {
 //            BigDecimal valorTotalDoPedido = pedido.calcularValorTotal();
 //
 //            ResponseEntity.status(HttpStatus.OK).build();
-        pedidoRepository.save(pedido);
-        return pedido.calcularValorTotal();
+//        pedidoRepository.save(pedido);
+//        return pedido.calcularValorTotal();
 
 //        }
 //        if (pedido.getCervejas().size() <= 10 && temperatura <= 22) {
@@ -133,12 +132,14 @@ public class PedidoService {
 //            BigDecimal descontoComTemperatura = valorTotalDoPedido.subtract(valorTotalDoPedido
 //                    .multiply(new BigDecimal(0.15)));
 //            ResponseEntity.status(HttpStatus.OK).build();
-        pedidoRepository.save(pedido);
-        return pedido.calcularValorTotal();
+//        pedidoRepository.save(pedido);
+//        return pedido.calcularValorTotal();
 //
 //        }
-        return pedido.calcularValorTotal();
+//        return pedido.calcularValorTotal();
+
     }
+
 
 }
 
