@@ -8,6 +8,4 @@ public interface CervejaRepository extends JpaRepository<Cerveja,Long> {
     Cerveja findByTipo(TipoCerveja tipo);
 
     Cerveja findByNome(String nome);
-
-    Cerveja pesquisar(TipoCerveja tipo);
 }

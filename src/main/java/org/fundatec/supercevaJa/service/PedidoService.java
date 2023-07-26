@@ -1,8 +1,6 @@
 package org.fundatec.supercevaJa.service;
 
-import org.fundatec.supercevaJa.dto.CervejaDTO;
-import org.fundatec.supercevaJa.dto.PedidoDTO;
-import org.fundatec.supercevaJa.dto.UsuarioDTO;
+import org.fundatec.supercevaJa.dto.*;
 import org.fundatec.supercevaJa.model.Cerveja;
 import org.fundatec.supercevaJa.model.Pedido;
 import org.fundatec.supercevaJa.model.Usuario;
@@ -14,6 +12,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
 
 
 @Service
@@ -30,75 +30,49 @@ public class PedidoService {
         this.usuarioRepository = usuarioRepository;
     }
 
-    public BigDecimal adicionarPedido(UsuarioDTO usuarioDTO, PedidoDTO pedidoDTO,
-                                      CervejaDTO cervejaDTO, long idUsuario) {
-
-
-        Usuario usuario = usuarioRepository.pesquisar(idUsuario);
+    public BigDecimal adicionarPedido(CriarPedidoDTO criarPedidoDTO) {
+        Usuario usuario = usuarioRepository.findByUserName(criarPedidoDTO.getUserName());
         if (usuario.isMaiorDeIdade() == false && usuario == null) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
                     "Pedido inválido" + usuario.getIdUsuario() +
                             "usuário menor de idade e/ou não cadastrado");
         }
 
-        Pedido pedido = pedidoRepository.pesquisar(pedidoDTO.getIdPedido());
-        if (pedido == null) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
-                    "Pedido inexistente" + pedido.getIdPedido() + "Não há id do pedido");
+//        Pedido pedido = pedidoRepository.findById(pedidoDTO.getIdPedido());
+//        if (pedido == null) {
+//            throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
+//                    "Pedido inexistente" + pedido.getIdPedido() + "Não há id do pedido");
+//        }
+
+        Pedido novoPedido = new Pedido();
+        novoPedido.setUsuario(usuario);
+
+        List<Cerveja> cervejasDoPedido = new ArrayList<Cerveja>();
+        List<CriarCervejaDTO> listaCervejasDTO = criarPedidoDTO.getCervejas();
+        for (CriarCervejaDTO criarCervejaDTO : listaCervejasDTO) {
+            Cerveja cerveja = new Cerveja();
+            cerveja.setQuantidade(criarCervejaDTO.getQuantidade());
+            cerveja.setValor(criarCervejaDTO.getValor());
+            cervejasDoPedido.add(cerveja);
+            cervejaRepository.save(cerveja);
+        }
+        novoPedido.setCervejas(cervejasDoPedido);
+
+        pedidoRepository.save(novoPedido);
+
+        if (novoPedido.getCervejas().size() <= 10) {
+            BigDecimal valorTotalDoPedido = calcularValorTotal(novoPedido);
+            pedidoRepository.save(novoPedido);
+            return valorTotalDoPedido;
         }
 
-        Pedido pedido1 = new Pedido();
-        pedido1.calcularValorTotal();
-        pedido1.setUsuario(pedidoDTO.getUsuario());
-        pedido1.setCervejas(pedidoDTO.getCervejas());
-        pedidoRepository.save(pedido1);
-        return pedido1.calcularValorTotal();
-
-
-        Cerveja cerveja = new Cerveja();
-        cerveja.setTipo(cervejaDTO.getTipo());
-        cerveja.setQuantidade(cervejaDTO.getQuantidade());
-        cerveja.setValor(cervejaDTO.getValor());
-        cervejaRepository.save(cerveja);
-
-
-        Usuario usuario1 = new Usuario();
-        usuario1.setUserName(usuarioDTO.getUserName());
-        usuarioRepository.save(usuario1);
-
-
-        if (pedido1.getCervejas().size() <= 10) {
-
-            Cerveja cerveja1 = new Cerveja();
-            cerveja1.setTipo(cervejaDTO.getTipo());
-            cerveja1.setQuantidade(cervejaDTO.getQuantidade());
-            cerveja1.setValor(cervejaDTO.getValor());
-            cervejaRepository.save(cerveja1);
-            BigDecimal valorTotalDoPedido = pedido.calcularValorTotal();
-            ResponseEntity.status(HttpStatus.OK).build();
-            pedidoRepository.save(pedido1);
-            return pedido.calcularValorTotal();
-
-        }
-
-        if (pedido1.getCervejas().size() >= 10) {
-
-            pedido1.setCervejas(pedidoDTO.getCervejas());
-            Usuario usuario2 = new Usuario();
-            usuario2.setUserName(usuario.getUserName());
-            usuarioRepository.save(usuario2);
-            Cerveja cerveja3 = new Cerveja();
-            cerveja3.setQuantidade(cervejaDTO.getQuantidade());
-            cerveja3.setTipo(cervejaDTO.getTipo());
-            cerveja3.setValor(cervejaDTO.getValor());
-            cervejaRepository.save(cerveja3);
-            BigDecimal valorTotalDoPedido = pedido.calcularValorTotal();
+        if (novoPedido.getCervejas().size() >= 10) {
+            BigDecimal valorTotalDoPedido = calcularValorTotal(novoPedido);
             BigDecimal valorTotalDoPedidoComDesconto = BigDecimal.ZERO;
             valorTotalDoPedidoComDesconto = valorTotalDoPedido
                     .subtract(valorTotalDoPedido.multiply(new BigDecimal(0.1)));
-            pedidoRepository.save(pedido1);
-            return pedido.calcularValorTotal();
-
+            pedidoRepository.save(novoPedido);
+            return valorTotalDoPedido;
         }
 
 //        if (pedido.getCervejas().size() >= 10 && temperatura <= 22) {
@@ -138,6 +112,22 @@ public class PedidoService {
 //        }
 //        return pedido.calcularValorTotal();
 
+        return null;
+
+    }
+    private BigDecimal calcularValorTotal(Pedido pedido) {
+        // Percorrer a Lista de Cervejas e somar todos os valores
+        // A soma desses valores deve ser retornada, representando o valor total do Pedido
+        BigDecimal valorTotalPedido = BigDecimal.ZERO;
+        for (Cerveja cerveja : pedido.getCervejas()) {
+            // BigDecimal big1 = new BigDecimal("1078");
+            // BigDecimal big2 = new BigDecimal("1928");
+            // BigDecimal bigResult = big1.add(big2);
+            System.out.println(cerveja.getNome());
+            // Somar todas as cervejas
+            valorTotalPedido = valorTotalPedido.add(cerveja.getValor());
+        }
+        return valorTotalPedido;
     }
 
 

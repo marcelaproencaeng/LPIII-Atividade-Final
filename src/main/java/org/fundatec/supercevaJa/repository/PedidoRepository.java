@@ -10,8 +10,5 @@ import java.util.Optional;
 
 @Repository
 public interface PedidoRepository extends JpaRepository<Pedido,Long> {
-    Pedido calcularPedido(Pedido pedido);
-
-
-    Pedido pesquisar(long idPedido);
+    Pedido findById(long idPedido);
 }

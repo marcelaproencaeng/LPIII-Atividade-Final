@@ -36,7 +36,7 @@ public class UsuarioCtrl {
         this.usuarioService.deletar(userName);
     }
 
-    @PutMapping("/{id}/{sobrenome}")
+    @PutMapping("/{idUsuario}/{sobrenome}")
     public ResponseEntity<Usuario> atualizarSobrenomeDeUsuarioPorId(@PathVariable("idUsuario") Long idUsuario,
                                                                     @PathVariable("sobrenome") String sobrenome) {
         usuarioService.atualizarSobrenomeDeUsuarioPorId(sobrenome, idUsuario);

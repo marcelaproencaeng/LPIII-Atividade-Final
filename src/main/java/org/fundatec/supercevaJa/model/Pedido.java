@@ -19,10 +19,10 @@ public class Pedido {
     @Column
     private long idPedido;
     @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "pedido_id", referencedColumnName = "id")
+    @JoinColumn(name = "usuario_id")
     private Usuario usuario;
     @OneToMany(cascade = CascadeType.ALL)
-    @JoinColumn(name = "pedido_id", referencedColumnName = "id")
+    @JoinColumn(name = "cerveja_id")
     private List<Cerveja> cervejas;
     @Column
     private LocalDate dataPedido;
@@ -45,18 +45,5 @@ public class Pedido {
         this.status = status;
         this.formaPagamento = formaPagamento;
     }
-    public BigDecimal calcularValorTotal() {
-        // Percorrer a Lista de Cervejas e somar todos os valores
-        // A soma desses valores deve ser retornada, representando o valor total do Pedido
-        BigDecimal valorTotalPedido = BigDecimal.ZERO;
-        for (Cerveja cerveja : cervejas) {
-            // BigDecimal big1 = new BigDecimal("1078");
-            // BigDecimal big2 = new BigDecimal("1928");
-            // BigDecimal bigResult = big1.add(big2);
-            System.out.println(cerveja.getNome());
-            // Somar todas as cervejas
-            valorTotalPedido = valorTotalPedido.add(cerveja.getValor());
-        }
-        return valorTotalPedido;
-    }
+
 }
